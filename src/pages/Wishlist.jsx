@@ -25,7 +25,7 @@ export default function Wishlist({ wishlist, toggleWishlist }) {
           Back to Books
         </button>
         <h1>
-          <span>❤️</span>
+          
           Your Wishlist
         </h1>
       </div>

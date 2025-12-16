@@ -56,7 +56,7 @@ export default function MyLibrary({ allBooks }) {
           fontWeight: "700",
         }}
       >
-        📚 My Library
+         My Library
       </h1>
 
       <p style={{ fontSize: "18px", opacity: 0.8, marginBottom: "35px" }}>

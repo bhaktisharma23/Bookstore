@@ -280,7 +280,7 @@ export default function NextPage({ wishlist, toggleWishlist ,setAllBooks }) {   
         <div className="top-buttons">
           {/* Library Button */}
           <button className="library-btn" onClick={() => navigate("/library")}>
-            📚 My Library
+             My Library
           </button>
           <button className="wishlist-btn" onClick={() => navigate("/wishlist")}>
             ❤️Wishlist

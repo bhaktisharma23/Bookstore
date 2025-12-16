@@ -413,7 +413,7 @@ export default function Payment() {
             
             {/* Order type badge */}
             <div className={`order-type-badge ${isPhysicalDelivery ? 'physical' : 'digital'}`}>
-              {isPhysicalDelivery ? '📦 Physical Delivery' : '📖 Digital Access'}
+              {isPhysicalDelivery ? ' Physical Delivery' : ' Digital Access'}
             </div>
 
             {/* Delivery Address Summary for physical orders */}
@@ -483,15 +483,15 @@ export default function Payment() {
 
           <div className="trust-badges">
             <div className="trust-badge">
-              <span className="badge-icon">🔒</span>
+              
               <span>Secure Payment</span>
             </div>
             <div className="trust-badge">
-              <span className="badge-icon">{isPhysicalDelivery ? '🚚' : '📚'}</span>
+              
               <span>{isPhysicalDelivery ? 'Fast Delivery' : 'Instant Access'}</span>
             </div>
             <div className="trust-badge">
-              <span className="badge-icon">💯</span>
+              
               <span>Satisfaction Guaranteed</span>
             </div>
           </div>

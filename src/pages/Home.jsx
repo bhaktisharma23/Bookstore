@@ -25,12 +25,19 @@ export default function Home() {
     last: "",
     dob: "",
     password: "",
+    confirmPassword: "",
   });
 
   const [signinData, setSigninData] = useState({
     email: "",
     password: "",
   });
+
+  // Email validation helper
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   // Check if user is logged in
   const isLoggedIn = () => {
@@ -49,7 +56,12 @@ export default function Home() {
   // -------- GET STARTED PRESSED --------
   const handleGetStarted = () => {
     if (!email.trim()) {
-      alert("Please enter a valid email.");
+      alert("Please enter an email address.");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address (e.g., name@example.com).");
       return;
     }
 
@@ -65,8 +77,49 @@ export default function Home() {
 
   // ---------- SIGN UP SUBMIT ----------
   const handleSignUpSubmit = () => {
-    if (!signupData.first || !signupData.last || !signupData.dob || !signupData.password) {
-      alert("Please fill all details.");
+    // Validate email
+    if (!email.trim()) {
+      alert("Email is required.");
+      return;
+    }
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address (e.g., name@example.com).");
+      return;
+    }
+
+    // Validate name fields
+    if (!signupData.first.trim()) {
+      alert("First name is required.");
+      return;
+    }
+    if (!signupData.last.trim()) {
+      alert("Last name is required.");
+      return;
+    }
+
+    // Validate date of birth
+    if (!signupData.dob) {
+      alert("Date of birth is required.");
+      return;
+    }
+
+    // Validate password
+    if (!signupData.password) {
+      alert("Password is required.");
+      return;
+    }
+    if (signupData.password.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return;
+    }
+
+    // Validate confirm password
+    if (!signupData.confirmPassword) {
+      alert("Please confirm your password.");
+      return;
+    }
+    if (signupData.password !== signupData.confirmPassword) {
+      alert("Passwords do not match.");
       return;
     }
 
@@ -74,7 +127,10 @@ export default function Home() {
     localStorage.setItem(
       email,
       JSON.stringify({
-        ...signupData,
+        first: signupData.first,
+        last: signupData.last,
+        dob: signupData.dob,
+        password: signupData.password,
         email: email,
       })
     );
@@ -83,14 +139,32 @@ export default function Home() {
     setShowSignUp(false);
     setShowSignIn(true);
     setSigninData({ ...signinData, email: email });
+    // Reset signup form
+    setSignupData({ first: "", last: "", dob: "", password: "", confirmPassword: "" });
   };
 
   // ---------- SIGN IN SUBMIT ----------
   const handleSignInSubmit = () => {
+    // Validate email
+    if (!signinData.email.trim()) {
+      alert("Email is required.");
+      return;
+    }
+    if (!isValidEmail(signinData.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Validate password
+    if (!signinData.password) {
+      alert("Password is required.");
+      return;
+    }
+
     const user = JSON.parse(localStorage.getItem(signinData.email));
 
     if (!user) {
-      alert("No account found.");
+      alert("No account found with this email.");
       return;
     }
     if (user.password !== signinData.password) {
@@ -141,15 +215,15 @@ export default function Home() {
           {/* Features */}
           <div className="hero-features">
             <div className="feature">
-              <span className="feature-icon">📖</span>
+              <span className="feature-icon">•</span>
               <span>Read Anywhere</span>
             </div>
             <div className="feature">
-              <span className="feature-icon">🚚</span>
+              <span className="feature-icon">•</span>
               <span>Free Delivery</span>
             </div>
             <div className="feature">
-              <span className="feature-icon">💰</span>
+              <span className="feature-icon">•</span>
               <span>Best Prices</span>
             </div>
           </div>
@@ -199,6 +273,16 @@ export default function Home() {
             </div>
 
             <div className="popup-form">
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  placeholder="john@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              
               <div className="form-row">
                 <div className="form-group">
                   <label>First Name</label>
@@ -243,6 +327,18 @@ export default function Home() {
                   value={signupData.password}
                   onChange={(e) =>
                     setSignupData({ ...signupData, password: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  placeholder="Confirm your password"
+                  value={signupData.confirmPassword}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, confirmPassword: e.target.value })
                   }
                 />
               </div>
@@ -308,7 +404,15 @@ export default function Home() {
               
               <p className="popup-switch">
                 Don't have an account?{" "}
-                <button onClick={() => { setShowSignIn(false); setShowSignUp(true); }}>
+                <button onClick={() => { 
+                  setShowSignIn(false); 
+                  setShowSignUp(true); 
+                  // Reset signup form and set email from signin if available
+                  setSignupData({ first: "", last: "", dob: "", password: "", confirmPassword: "" });
+                  if (!email && signinData.email) {
+                    setEmail(signinData.email);
+                  }
+                }}>
                   Create one
                 </button>
               </p>
