@@ -154,7 +154,7 @@ export default function Payment() {
             {/* Personal Information */}
             <div className="form-section">
               <h3 className="section-title">
-                <span className="section-icon">👤</span>
+                
                 Personal Information
               </h3>
               
@@ -166,7 +166,7 @@ export default function Payment() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    placeholder="John Doe"
+                    
                     required
                   />
                 </div>
@@ -177,7 +177,7 @@ export default function Payment() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="john@example.com"
+                    
                     required
                   />
                 </div>
@@ -242,7 +242,7 @@ export default function Payment() {
             {/* Payment Method */}
             <div className="form-section">
               <h3 className="section-title">
-                <span className="section-icon">💳</span>
+          
                 Payment Method
               </h3>
 

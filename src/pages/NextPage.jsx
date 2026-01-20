@@ -4,8 +4,10 @@ import Recommended from "../components/Recommended";
 import FilterSortBar from "../components/FilterSortBar";
 import BookList from "../components/BookList";
 import { useNavigate } from "react-router-dom";
-import AIAssistant from "../components/AIAssistant";
+//import AIAssistant from "../components/AIAssistant";
 import "../styles/nextpage.css";
+
+
 
 export default function NextPage({ wishlist, toggleWishlist ,setAllBooks }) {   // ⭐ RECEIVED FROM APP.JSX
   const navigate = useNavigate();
@@ -300,6 +302,7 @@ export default function NextPage({ wishlist, toggleWishlist ,setAllBooks }) {   
 
       <Greeting name={name} />
       <Recommended books={localBooks} />
+
       <FilterSortBar onChange={handleFilterSort} />
 
       {showNotFound && (
@@ -328,7 +331,7 @@ export default function NextPage({ wishlist, toggleWishlist ,setAllBooks }) {   
         toggleWishlist={toggleWishlist} //  passed
       />
 
-      <AIAssistant allBooks={localBooks} />
+     {/* <AIAssistant allBooks={localBooks} /> */}
 
     </div>
   );

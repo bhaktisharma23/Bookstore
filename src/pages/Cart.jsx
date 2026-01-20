@@ -104,19 +104,32 @@ export default function Cart() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const readBooks = cart.filter((b) => b.type === "read");
-  const buyBooks = cart.filter((b) => b.type === "buy");
+  const readBooks = cart.filter(b => b.type === "read");
+const buyBooks = cart.filter(b => b.type === "buy");
 
-  // Calculate totals with quantity
-  const readSubtotal = readBooks.reduce((sum, b) => sum + ((b.price || 0) * (b.quantity || 1)), 0);
-  const buySubtotal = buyBooks.reduce((sum, b) => sum + ((b.buyPrice || 0) * (b.quantity || 1)), 0);
-  
-  // Calculate discounts (10% if > ₹500)
-  const readDiscount = readSubtotal > 500 ? Math.round(readSubtotal * 0.1) : 0;
-  const buyDiscount = buySubtotal > 500 ? Math.round(buySubtotal * 0.1) : 0;
-  
-  const readTotal = readSubtotal - readDiscount;
-  const buyTotal = buySubtotal - buyDiscount;
+const readSubtotal = readBooks.reduce(
+  (sum, b) => sum + (b.price ?? 0) * (b.quantity ?? 1),
+  0
+);
+
+const buySubtotal = buyBooks.reduce(
+  (sum, b) => sum + (b.buyPrice ?? 0) * (b.quantity ?? 1),
+  0
+);
+
+const getDiscount = (subtotal) => subtotal > 1000 ? subtotal * 0.1 : 0;
+
+const readDiscount = getDiscount(readSubtotal);
+const buyDiscount = getDiscount(buySubtotal);
+
+const calculateCharges = (total) => total < 500 ? 50 : 0;
+
+const readCharges = calculateCharges(readSubtotal - readDiscount);
+const buyCharges = calculateCharges(buySubtotal - buyDiscount);
+
+const readTotal = Math.round(readSubtotal - readDiscount + readCharges);
+const buyTotal  = Math.round(buySubtotal - buyDiscount + buyCharges);
+
 
   // Update quantity
   const updateQuantity = (bookId, type, newQuantity) => {
@@ -295,7 +308,7 @@ export default function Cart() {
 
       <div className="cart-content">
         <h1 className="cart-title">
-          <span className="cart-icon">🛒</span>
+          <span className="cart-icon"></span>
           Your Shopping Cart
         </h1>
 
@@ -315,7 +328,7 @@ export default function Cart() {
               <div className="cart-section read-section">
                 <div className="section-header">
                   <div className="section-title-wrapper">
-                    <span className="section-emoji">📖</span>
+                    <span className="section-emoji"></span>
                     <div>
                       <h2>Digital Access</h2>
                       <p>Read instantly on any device • No shipping required</p>
@@ -384,6 +397,8 @@ export default function Cart() {
                         <span>-₹{readDiscount}</span>
                       </div>
                     )}
+                    
+
                     <div className="summary-row total-row">
                       <span>Total</span>
                       <span>₹{readTotal}</span>
@@ -396,20 +411,14 @@ export default function Cart() {
                     </div>
                   )}
                   
-                  {readSubtotal > 0 && readSubtotal <= 500 && (
+                  {readSubtotal > 0 && readSubtotal <= 1000 && (
                     <div className="discount-hint">
-                      💡 Add ₹{500 - readSubtotal} more to get 10% off!
+                      💡 Add ₹{1000 - readSubtotal} more to get 10% off!
                     </div>
                   )}
 
                   {/* No address required info */}
-                  <div className="no-address-info">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"/>
-                      <path d="M9 12l2 2 4-4"/>
-                    </svg>
-                    <span>Instant digital access • No delivery address required</span>
-                  </div>
+                  
 
                   <button className="checkout-btn" onClick={handleReadPayment}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -540,6 +549,13 @@ export default function Cart() {
                         <span>-₹{buyDiscount}</span>
                       </div>
                     )}
+                    {buyCharges > 0 && (
+  <div className="summary-row charges-row">
+    <span>Delivery Charges</span>
+    <span>+₹{buyCharges}</span>
+  </div>
+)}
+
                     <div className="summary-row total-row">
                       <span>Total</span>
                       <span>₹{buyTotal}</span>
@@ -552,9 +568,9 @@ export default function Cart() {
                     </div>
                   )}
                   
-                  {buySubtotal > 0 && buySubtotal <= 500 && (
+                  {buySubtotal > 0 && buySubtotal <= 1000 && (
                     <div className="discount-hint">
-                      💡 Add ₹{500 - buySubtotal} more to get 10% off!
+                      💡 Add ₹{1000 - buySubtotal} more to get 10% off!
                     </div>
                   )}
 
