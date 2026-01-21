@@ -1,0 +1,248 @@
+react(button)
+export default function Box() {
+  return (
+    <div className="box">
+      <button className="btn top-left">TL</button>
+      <button className="btn top-right">TR</button>
+      <button className="btn bottom-left">BL</button>
+      <button className="btn bottom-right">BR</button>
+    </div>
+  );
+}
+
+css
+.box {
+  position: relative;
+  width: 400px;
+  height: 300px;
+  border: 2px solid black;
+}
+
+.btn {
+  position: absolute;
+}
+
+.top-left { top: 10px; left: 10px; }
+.top-right { top: 10px; right: 10px; }
+.bottom-left { bottom: 10px; left: 10px; }
+.bottom-right { bottom: 10px; right: 10px; }
+
+-------------------
+password
+Write this INSIDE Home() component, near your isValidEmail helper.
+
+// Password strength validation
+const isStrongPassword = (password) => {
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return regex.test(password);
+};
+
+STEP 2: Add warning text below Password input
+
+👉 Go to SIGN UP popup → Password field
+
+Find this part:
+
+<div className="form-group">
+  <label>Password</label>
+  <input
+    type="password"
+    placeholder="Create a strong password"
+    value={signupData.password}
+    onChange={(e) =>
+      setSignupData({ ...signupData, password: e.target.value })
+    }
+  />
+</div>
+
+Replace it with this 👇
+<div className="form-group">
+  <label>Password</label>
+  <input
+    type="password"
+    placeholder="Create a strong password"
+    value={signupData.password}
+    onChange={(e) =>
+      setSignupData({ ...signupData, password: e.target.value })
+    }
+  />
+
+  {/* Password warning */}
+  {signupData.password &&
+    !isStrongPassword(signupData.password) && (
+      <small style={{ color: "red", fontSize: "11px" }}>
+        Password must be 8+ chars, include uppercase, lowercase, number & special character.
+      </small>
+    )}
+</div>
+
+STEP 3: Block signup if password is weak
+
+👉 In handleSignUpSubmit, replace this part:
+
+if (signupData.password.length < 6) {
+  alert("Password must be at least 6 characters long.");
+  return;
+}
+
+🔁 Replace with:
+if (!isStrongPassword(signupData.password)) {
+  alert(
+    "Password must be at least 8 characters and include uppercase, lowercase, number and special character."
+  );
+  return;
+}
+-------------------
+#CSS
+📦 Layout & Position
+
+display → element ka layout behavior define karta hai
+
+position → element screen/container ke hisaab se place karta hai
+
+top / right / bottom / left → positioned element ka exact location
+
+z-index → layers ka order decide karta hai
+
+float → element ko left/right flow me le jata hai
+
+clear → float ka effect remove karta hai
+
+📐 Box Model
+
+margin → element ke bahar ka space
+
+padding → element ke andar ka space
+
+border → element ka outline
+
+box-sizing → width/height calculation rule set karta hai
+
+🎨 Colors & Background
+
+color → text ka color
+
+background → background shortcut property
+
+background-color → background ka color
+
+background-image → background image set karta hai
+
+background-size → image ka size control karta hai
+
+background-position → image ki position
+
+background-repeat → image repeat behavior
+
+✍️ Text & Font
+
+font-family → font type set karta hai
+
+font-size → text ka size
+
+font-weight → text ki thickness
+
+font-style → italic/normal text
+
+text-align → text alignment
+
+text-decoration → underline/line-through
+
+line-height → lines ke beech space
+
+letter-spacing → letters ke beech gap
+
+📏 Size
+
+width / height → element ka size
+
+max-width / min-width → responsive limits
+
+overflow → content overflow handle karta hai
+
+🧭 Flexbox
+
+display: flex → flex layout enable karta hai
+
+flex-direction → row ya column flow
+
+justify-content → main axis alignment
+
+align-items → cross axis alignment
+
+gap → items ke beech space
+
+📐 Grid
+
+display: grid → grid layout activate karta hai
+
+grid-template-columns → columns define karta hai
+
+grid-template-rows → rows define karta hai
+
+place-items → alignment shortcut
+
+🎬 Effects & Animation
+
+opacity → transparency control
+
+transition → smooth property change
+
+transform → rotate/scale/move element
+
+animation → keyframe based motion
+
+box-shadow → shadow add karta hai
+
+🖱️ Interaction
+
+cursor → mouse pointer type
+
+pointer-events → click enable/disable
+
+user-select → text select control
+
+📱 Responsive
+
+@media → screen size ke according styles
+
+vw / vh → viewport based units
+
+% → relative sizing
+
+
+“Kitna px ya % likhna hai – kaise pata chale?”
+
+px → jab exact size chahiye (icons, borders, buttons height)
+
+% → jab parent ke according responsive size chahiye
+
+vw / vh → screen ke according size chahiye (hero sections)
+
+rem → text + spacing scalable rakhna ho (best practice)
+
+em → parent text ke relative sizing chahiye
+
+📌 Rule of Thumb (yaad rakhne layak)
+
+Text → rem
+
+Padding/Margin → rem or %
+
+Layout width → % / vw
+
+Height fixed ho → px
+
+Full screen section → 100vh
+-------------------
+## local storage empty 
+const handleLogout = () => {
+  localStorage.removeItem("firstName");
+  localStorage.removeItem("wishlist");
+  localStorage.removeItem("cart");
+  localStorage.removeItem("email");
+
+  navigate("/");
+};
+
