@@ -9,3 +9,4 @@ Responsive business website
 This project uses React + Vite with HMR and ESLint support.
 
 ### My first frontend project 
+# Easy to use
